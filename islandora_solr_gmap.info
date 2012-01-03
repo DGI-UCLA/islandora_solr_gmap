@@ -1,0 +1,6 @@
+name = Islandora Solr Gmap
+description = Display Islandora Solr Search results on a Google Map.
+dependencies[] = islandora_solr_search
+package = Islandora Search
+version = 6.x-1.x-dev
+core = 6.x

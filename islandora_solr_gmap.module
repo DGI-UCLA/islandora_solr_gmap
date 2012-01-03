@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * Configuration module for islandora_solr_search.module
+ */
+
+/**
+ * Implementations of hook_init()
+ * Including css for the admin page.
+ */
+ 
+//function islandora_solr_gmap_init() {
+//
+//}
+
+
+
+
+/**
+ * Implementation of hook_help()
+ */
+
+function islandora_solr_gmap_help($path, $arg) {
+
+  switch ($path) {
+    case 'admin/help#islandora_solr_gmap':
+      return t('The islandora_solr_gmap module provides a display type for the islandora_solr_search module. It populates a google map with the solr results.');
+    case 'admin/settings/islandora_solr_search/gmap':
+      return t('The islandora_solr_gmap module provides a display type for the islandora_solr_search module. It populates a google map with the solr results.');
+  }
+}
+
+
+
+
+/**
+ * Implementation of hook_theme()
+ */
+ 
+function islandora_solr_gmap_theme() {
+  // set path
+  $path = drupal_get_path('module', 'islandora_solr_gmap') . '/theme';
+  $file = 'islandora_solr_gmap.theme.inc';
+  
+  return array(
+    'islandora_solr_gmap' => array(
+      'path' => $path,
+      'file' => $file,
+      'template' => 'islandora-solr-gmap',
+      'arguments' => array('results_raw' => NULL),
+    ),
+  );
+}
+
+
+
+/**
+ * Implements hook_islandora_solr_primary_display()
+ */
+function islandora_solr_gmap_islandora_solr_primary_display() {
+  return array(
+    // 'machine-name' = array(
+    //   'name' => 'Human Readable Name',
+    //   'module' => 'module_name',
+    //   'file' => 'FileName.inc',
+    //   'class' => 'ClassName',
+    //   'function' => 'function_name',
+    //   'description' => 'A description of the display profile',
+    // );
+    'gmap' => array(
+      'name' => t('Google Map'),
+      'module' => 'islandora_solr_gmap',
+      'file' => '/includes/IslandoraSolrResultsGmap.inc',
+      'class' => "IslandoraSolrResultsGmap",
+      'function' => "displayResults",
+      'description' => t("Display results on a Google Map."),
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_islandora_solr_search_query_processor()
+ */
+function islandora_solr_gmap_islandora_solr_search_query_processor($processor) {
+  
+  // get current display
+  $islandora_solr_primary_display = isset($_GET['display']) ? $_GET['display'] : variable_get('islandora_solr_primary_display', 'default');
+  
+  // only make changes if we're dealing with our gmap display
+  if ($islandora_solr_primary_display == 'gmap') {
+  
+    //dsm($processor);
+    $processor->solrParams['fq'][] = 'mods_coordinates_s:[* TO *]';
+    // Get pager variable
+    $startPage = isset($_GET['page']) ? $_GET['page'] : 0;
+    $processor->solrLimit = 10000000; // a very high number
+    $processor->solrStart = max(0, $startPage) * $processor->solrLimit;
+
+  }
+}
