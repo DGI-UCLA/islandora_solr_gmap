@@ -41,7 +41,7 @@ class IslandoraSolrResultsGmap extends IslandoraSolrResults {
    *   output manually, should refactor to use drupal forms api.
    */
   function printResults($results) {
-    dsm($results);
+    //dsm($results);
     if ( variable_get('islandora_solr_search_debug_mode', 0) ) {
       // debug dump
       $results_r .= "<pre>Results: " . print_r($results, TRUE) . "</pre>";
@@ -58,24 +58,6 @@ class IslandoraSolrResultsGmap extends IslandoraSolrResults {
     $output = theme('islandora_solr_gmap', $results_raw);
     
     return $output;
-  }
-
-  
-  
-  /**
-* Function: displayFacets
-*
-* Description: Displays basic facets based on an apache solr query response,
-* as contained with the IslandoraSolrQueryProcessor.
-*
-* @global string $base_url
-* @param IslandoraSolrQueryProcessor $solrQueryProcessor
-* @return string
-*/
-  function displayFacets($solrQueryProcessor) {
-    dsm($solrQueryProcessor);
-    
-    
   }
   
   
