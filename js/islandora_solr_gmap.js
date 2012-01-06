@@ -20,7 +20,7 @@ function initialize_map() {
 
   // set and/or populate variables
   // latlong object
-  var lat_lons = Drupal.settings.islandora_solr_gmap.data;
+  var lat_lons = Drupal.settings.islandora_solr_gmap.latlong;
   var markerUrl = Drupal.settings.islandora_solr_gmap.markers;
 
   var markers = [];
@@ -99,15 +99,21 @@ function initialize_map() {
     var ll = lat_long.split(" "); // set this in admin settings how this is done.
     //alert(ll);
     var recs = lat_lons[lat_long];
-//    alert(recs);
+    var recsLength = recs.length;
+
+    markerTitle = lat_lons[lat_long][0].mods_title_s[0];
+
+    if (recsLength > 1) {
+      markerTitle += ' ' + Drupal.t('(+@variable more)', { '@variable': (recsLength -1) });
+    }
+
     marker = new google.maps.Marker({
       position: new google.maps.LatLng(parseFloat(ll[0]), parseFloat(ll[1])),
       map: map,
       flat: true,
       visible: true,
-      icon: marker_icons[recs.length > 100 ? 100 : recs.length],
-      //icon: marker_icons[1]
-      title: lat_lons[lat_long][0].PID
+      icon: marker_icons[recsLength > 100 ? 100 : recsLength],
+      title: markerTitle
     });
     
 //    markers.push(marker);
