@@ -17,5 +17,12 @@
  *
  */
 ?>
-
-<div id="islandora-solr-gmap"></div>
+<div id="islandora-solr-gmap-wrap">
+  <div id="islandora-solr-gmap"></div>
+  <div id="gmap-overlay-wrap">
+    <a href="" id="gmap-overlay-close">X</a>
+    <div id="gmap-overlay">
+      test
+    </div>
+  </div>
+</div>

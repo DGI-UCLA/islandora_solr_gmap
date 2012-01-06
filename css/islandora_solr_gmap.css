@@ -3,3 +3,30 @@
   width: 100%;
   height: 700px;
 }
+
+#islandora-solr-gmap-wrap
+{
+  position: relative;
+}
+
+#gmap-overlay-wrap
+{
+  display: none;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  
+  width: 200px;
+  height: 700px;
+  background: #3D4E6E; /* Change into a more default colour later */
+}
+
+#gmap-overlay-close
+{
+  
+}
+
+#gmap-overlay
+{
+  
+}

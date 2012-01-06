@@ -18,8 +18,17 @@ function initialize_map() {
   // Give them something to look at while the map loads:
   init_lat_lon = "34.052234,-118.243685";
 
+  // set and/or populate variables
   // latlong object
-  var lat_lons = Drupal.settings.islandora_solr_gmap;
+  var lat_lons = Drupal.settings.islandora_solr_gmap.data;
+  var markerUrl = Drupal.settings.islandora_solr_gmap.markers;
+
+  var markers = [];
+  var marker_icons = [];
+  var selected_marker_icons = [];
+  var map;
+  
+
 
   var latlng = new google.maps.LatLng(34.052234,-118.243685);
   var opts = {
@@ -60,28 +69,47 @@ function initialize_map() {
 
   map = new google.maps.Map(document.getElementById('islandora-solr-gmap'), opts);
   
-//  var marker = new google.maps.Marker({
-//    position: new google.maps.LatLng(34.052234, -118.243685),
-//    map: map,
-//    title: 'Click Me'
-//  });
+
+  // Create markers for each number.
+  marker_icons.push(null);  // it's easier to be 1-based.
+  selected_marker_icons.push(null);
+  for (var i = 0; i < 100; i++) {
+    var num = i + 1;
+    var size = (num == 1 ? 9 : (num < 10 ? 13 : (num < 100 ? 25 : 39)));
+    marker_icons.push(new google.maps.MarkerImage(
+      markerUrl[0],
+      new google.maps.Size(size, size),
+      new google.maps.Point((i%10)*39, Math.floor(i/10)*39),
+      new google.maps.Point((size - 1) / 2, (size - 1)/2)
+    ));
+    selected_marker_icons.push(new google.maps.MarkerImage(
+      markerUrl[1],
+      new google.maps.Size(size, size),
+      new google.maps.Point((i%10)*39, Math.floor(i/10)*39),
+      new google.maps.Point((size - 1) / 2, (size - 1)/2)
+    ));
+  }
   
-  
+
+  // place markers
   var total = 0;
   var init_marker = null;
   for (var lat_long in lat_lons) {
-    //alert(lat_lons[lat_long]);
-    
-    var ll = lat_lons[lat_long].latlong.split(" "); // set this in admin settings how this is done.
-    //var recs = lat_lons[ll];
+        
+    var ll = lat_long.split(" "); // set this in admin settings how this is done.
+    //alert(ll);
+    var recs = lat_lons[lat_long];
+//    alert(recs);
     marker = new google.maps.Marker({
       position: new google.maps.LatLng(parseFloat(ll[0]), parseFloat(ll[1])),
       map: map,
       flat: true,
       visible: true,
-      //icon: marker_icons[recs.length > 100 ? 100 : recs.length],
-      title: lat_lons[lat_long].PID
+      icon: marker_icons[recs.length > 100 ? 100 : recs.length],
+      //icon: marker_icons[1]
+      title: lat_lons[lat_long][0].PID
     });
+    
 //    markers.push(marker);
 //    google.maps.event.addListener(marker, 'click', makeCallback(ll, marker));
     // google.maps.event.addListener(marker, 'mouseover', makePreloadCallback(ll));
