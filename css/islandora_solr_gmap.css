@@ -23,14 +23,25 @@
   height: 700px;*/
   background: #3D4E6E; /* Change into a more default colour later */
   background: rgba(61, 78, 110, 1);
+  
+  box-shadow: 5px 5px 5px #333;
 }
 
 #gmap-overlay-close
 {
-  
+  float: right;
+  margin: 5px 5px 0px 0px;
+  padding: 5px 5px 5px 5px;
+  text-decoration: none;
+}
+
+#gmap-overlay-close:hover
+{
+  text-decoration: underline;
 }
 
 #gmap-overlay
 {
-  
+  float: left;
+  width: 100%;
 }

@@ -9,20 +9,51 @@
  * - $base_url: The base url of the current website. eg: http://example.com .
  * - $user: The user object.
  *
- * - $results: the array containing the solr search results
- * - $table_rendered: If the display style is set to 'table', this will contain the rendered table.
- *    For theme overriding, see: theme_islandora_solr_custom_table() 
- * - $switch_rendered: The rendered switch to toggle between display styles
- *    For theme overriding, see: theme_islandora_solr_custom_switch() 
- *
  */
 ?>
 <div id="islandora-solr-gmap-wrap">
   <div id="islandora-solr-gmap"></div>
   <div id="gmap-overlay-wrap">
-    <a href="" id="gmap-overlay-close">X</a>
-    <div id="gmap-overlay">
-      test
-    </div>
+    <a href="#" id="gmap-overlay-close"><?php print t('X'); ?></a>
+    <div id="gmap-overlay"></div>
   </div>
 </div>
+<?php
+
+$str1 = '[
+    {
+        "PID": "ucla:3395",
+        "mods_title_s": [
+            " Dodger fans at Dodger Stadium box office, Calif., 1977"
+        ],
+        "mods_topic_s": [
+            "Baseball fans--California--Los Angeles County",
+            "Men--Clothing & dress--California--Los Angeles--1970-1980"
+        ],
+        "mods_genre_s": [
+            "news photographs"
+        ]
+    }
+]';
+$str2 = '[
+    {
+        "PID": "ucla:3868",
+        "mods_title_s": [
+            " Archbishop John J. Cantwell with children at dedication for Chinese Catholic Social Center, 1942"
+        ],
+        "mods_topic_s": [
+            "Asian American Catholics--California--Los Angeles",
+            "Dedications--California--Los Angeles County",
+            "Chinese American children--California--Los Angeles County"
+        ],
+        "mods_genre_s": [
+            "news photographs"
+        ]
+    }
+]';
+
+var_dump(json_decode($str1));
+var_dump(json_decode($str2));
+//dsm(json_decode($str1));
+dsm(array(json_decode($str2), json_decode($str2)));
+

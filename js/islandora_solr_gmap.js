@@ -1,34 +1,40 @@
 $(document).ready(function() {
   
-  // snippet
-  //alert('boogie');
+  // set and/or populate variables globally
+  // latlong object
+  lat_lons = Drupal.settings.islandora_solr_gmap.latlong;
+  markerUrl = Drupal.settings.islandora_solr_gmap.markers;
 
-
-
-
+  // set map
   initialize_map();
-
-
-
+  
+  // popup settings
+  $('#gmap-overlay, #gmap-overlay-close').click(function() {
+    // fadeOut and empty markup
+    $('#gmap-overlay-wrap').fadeOut(200, function() {
+      
+      $(this).find('#gmap-overlay').html('');
+    });
+    return false;
+  });
 });
+
+
+
+
 
 // @TODO: all these settings should be configurable through the admin interface.
 
 function initialize_map() {
   // Give them something to look at while the map loads:
+  // @TODO: set via admin UI
   init_lat_lon = "34.052234,-118.243685";
 
-  // set and/or populate variables
-  // latlong object
-  var lat_lons = Drupal.settings.islandora_solr_gmap.latlong;
-  var markerUrl = Drupal.settings.islandora_solr_gmap.markers;
-
+  // set variables
   var markers = [];
   var marker_icons = [];
   var selected_marker_icons = [];
   var map;
-  
-
 
   var latlng = new google.maps.LatLng(34.052234,-118.243685);
   var opts = {
@@ -104,7 +110,7 @@ function initialize_map() {
     markerTitle = lat_lons[lat_long][0].mods_title_s[0];
 
     if (recsLength > 1) {
-      markerTitle += ' ' + Drupal.t('(+@variable more)', { '@variable': (recsLength -1) });
+      markerTitle += ' ' + Drupal.t('(+@variable more)', {'@variable': (recsLength -1)});
     }
 
     marker = new google.maps.Marker({
@@ -116,16 +122,68 @@ function initialize_map() {
       title: markerTitle
     });
     
-//    markers.push(marker);
-//    google.maps.event.addListener(marker, 'click', makeCallback(ll, marker));
+    markers.push(marker);
+    
+    (function(lat_long, marker) {
+    google.maps.event.addListener(marker, 'click', function() {
+      showPopup(lat_long, marker);
+    });
+    
+    })(lat_long, marker);
     // google.maps.event.addListener(marker, 'mouseover', makePreloadCallback(ll));
-
+    
 //    total += recs.length;
 
 //    if (lat_lon == init_lat_lon) init_marker = marker;
   }
+}
+
+
+/**
+ * Show Popup
+ */
+function showPopup(lat_long, marker) {
+  // get all objects in clicked coordinates
+  var recs = lat_lons[lat_long];
+  // new object
+  var gmap = new Object();
+  // it seems to be important to create a new object and attach the stringified object to it.
+  // What didn't seem to work:
+  // 'gmap=' + JSON.stringify(recs);
+  // gmap['gmap'] = recs;
+  gmap['gmap'] = JSON.stringify(recs);
+
+  $.ajax({
+    type: "POST",
+    url: "/islandora-solr-gmap/callback",
+    cache: false,
+    //data: 'gmap=' + recs,
+    //data: 'gmap=' + JSON.stringify(recs),
+    data: gmap,
+    success: function(data) {
+      //alert(data);
+      $("#gmap-overlay").html(data.items);
+    },
+    dataType: 'json'
+  });
+  
+//   $.post("islandora-solr-gmap/callback", recs,
+//   function(data){
+//     alert(data);
+//   }, "html");
+  
+  
+  // then fadeIn (so the markup doesn't start rendering after the popup load.)
+  $('#gmap-overlay-wrap').fadeIn(200);
+  
+  //infowindow.open(lat_lon, marker);
   
   
   
-  
+}
+
+
+function htmlEncode(value){
+  //return $('<div/>').text(value).html();
+return String(value).replace('&', '&amp;');
 }

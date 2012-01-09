@@ -5,6 +5,7 @@
  * Configuration module for islandora_solr_search.module
  */
 
+
 /**
  * Implementations of hook_init()
  * Including css for the admin page.
@@ -13,7 +14,6 @@
 //function islandora_solr_gmap_init() {
 //
 //}
-
 
 
 
@@ -33,6 +33,31 @@ function islandora_solr_gmap_help($path, $arg) {
 
 
 
+/**
+ * Implement hook_menu().
+ *
+ * Note that each item has both an entry point to prepare the form, and also
+ * a callback function that provides and AHAH menu callback.
+ */
+function islandora_solr_gmap_menu() {
+  // set path
+  $path = drupal_get_path('module', 'islandora_solr_gmap');
+  
+  $items = array();
+
+  $items['islandora-solr-gmap/callback'] = array(
+    'title' => 'Gmap ajax callback',
+    'description' => 'Ajax callback for Gmap',
+    'page callback' => 'islandora_solr_gmap_callback',
+    'access callback' => TRUE,
+//    'path' => $path . '/theme',
+//    'file' => 'islandora_solr_gmap.theme.inc',
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+
 
 /**
  * Implementation of hook_theme()
@@ -44,11 +69,19 @@ function islandora_solr_gmap_theme() {
   $file = 'islandora_solr_gmap.theme.inc';
   
   return array(
+    // main page display
     'islandora_solr_gmap' => array(
       'path' => $path,
       'file' => $file,
       'template' => 'islandora-solr-gmap',
       'arguments' => array('results_raw' => NULL),
+    ),
+    // list of items displayed in popup after marker click
+    'islandora_solr_gmap_items' => array(
+      'path' => $path,
+      'file' => $file,
+      'template' => 'islandora-solr-gmap-items',
+      'arguments' => array('marker_items' => NULL), // marker_array contains all objects related to the clicked marker.
     ),
   );
 }
@@ -99,4 +132,21 @@ function islandora_solr_gmap_islandora_solr_search_query_processor($processor) {
     $processor->solrStart = max(0, $startPage) * $processor->solrLimit;
 
   }
+}
+
+
+
+
+/**
+ * Ajax callback
+ */
+function islandora_solr_gmap_callback() {
+  //dsm($_POST);
+  
+  $marker_items = json_decode($_POST['gmap'], true);
+  dsm($_POST['gmap']);
+  
+  $items = theme('islandora_solr_gmap_items', $marker_items);
+  return drupal_json(array('items' => $items));
+  exit;
 }

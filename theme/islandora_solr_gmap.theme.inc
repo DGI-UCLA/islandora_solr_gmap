@@ -68,6 +68,10 @@ function islandora_solr_gmap_preprocess_islandora_solr_gmap(&$variables) {
   // @TODO: should be configurable in the admin UI.
   $solr_fields_array = array('PID', 'mods_title_s', 'mods_topic_s', 'mods_genre_s');
   
+  // TODO: make adjustable through admin UI
+  // round numbers after decimal
+  $decimal = 6;
+  
   // start time
    $time = microtime(true);
   
@@ -83,6 +87,7 @@ function islandora_solr_gmap_preprocess_islandora_solr_gmap(&$variables) {
     // If we would skip trim (trim on ingest) we could save another 1ms per array of 1000, but I'll leave it for now.
     $coordinates_trim = trim($value['mods_coordinates_s'][0]);
     
+    // This is a slower way. We're pretty much sure we're exploding this into only two strings, so we can use list(), which is faster.
     // $coordinates_array = explode(' ', $coordinates_trim);
     // foreach($coordinates_array as $key => $val) {
     //   $coordinates_array[$key] = round($val, 6);
@@ -90,8 +95,8 @@ function islandora_solr_gmap_preprocess_islandora_solr_gmap(&$variables) {
     
     // TODO: set the explode value as an admin setting? If so, define the variable BEFORE the loop. Setting to 4 seems pretty doable but 6 might be best.
     // TODO: set refinement value as an admin setting? If so, define the variable BEFORE the loop
-    list($first, $second) = explode(' ', $coordinates_trim);
-    $coordinates_trim = round((float)$first, 6) . ' ' . round((float)$second, 6);
+    list($latitude, $longitude) = explode(' ', $coordinates_trim);
+    $coordinates_trim = round((float)$latitude, $decimal) . ' ' . round((float)$longitude, $decimal);
     //$coordinates_trim = $value[0] . ' ' . $value[1];  // Don't use unless solr values come in two arrays as trimmed and rounded floats.
     
     // not sure if this extra check is a performance hit?
@@ -126,3 +131,18 @@ function islandora_solr_gmap_preprocess_islandora_solr_gmap(&$variables) {
 
   //dsm($variables);
 }
+
+
+
+/**
+  * Theme function for theming the solr search results
+  *
+  * @return variables to be used in the template file.
+  */
+  
+function islandora_solr_gmap_preprocess_islandora_solr_gmap_items(&$variables) {
+  
+  
+  //dsm($variables);
+}
+
