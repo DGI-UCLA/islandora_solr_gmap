@@ -167,23 +167,7 @@ function showPopup(lat_long, marker) {
     dataType: 'json'
   });
   
-//   $.post("islandora-solr-gmap/callback", recs,
-//   function(data){
-//     alert(data);
-//   }, "html");
-  
-  
   // then fadeIn (so the markup doesn't start rendering after the popup load.)
   $('#gmap-overlay-wrap').fadeIn(200);
   
-  //infowindow.open(lat_lon, marker);
-  
-  
-  
-}
-
-
-function htmlEncode(value){
-  //return $('<div/>').text(value).html();
-return String(value).replace('&', '&amp;');
 }
