@@ -1,8 +1,6 @@
 TODO: update README.txt
 
-
-
-
+TODO: write proper credit.
 
 Notes:
 
@@ -19,3 +17,12 @@ Based on the ID (PID) we can do a single solr call to retrieve the table row.
 example: http://localhost:8080/solr/select?q=PID:"namespace:1000"
 And then grab the preferred values
 http://www.w3schools.com/xml/tryit.asp?filename=tryxml_dom_getelement
+similar:
+http://labs.adobe.com/technologies/spry/samples/data_region/FilterXPath_with_params.html
+http://labs.adobe.com/technologies/spry/data/employees-01.xml
+
+We can also call the Islandora API, but there is currently no dependency on Islandora
+and I would like to keep it that way as much as possible.
+
+
+TODO: notes on performance and the preprocess function
