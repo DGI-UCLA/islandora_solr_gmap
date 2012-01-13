@@ -1,6 +1,17 @@
-TODO: update README.txt
+@TODO: add cluster markers
+@TODO: when clicking a marker, bring it to front
+@TODO: show a little preview box on hover.
+@TOTO: add shortcut links to quickly switch positioning and zoom level within
+the google map. For example: one link can show an overview of the US, while
+another link can zoom into the LA city hall area.
 
-TODO: write proper credit.
+
+TODO: update README.txt
+TODO: write proper credits.
+
+Short description:
+The islandora_solr_gmap module enables the ability to display solr results on
+a google map for those that contain coordinates.
 
 Notes:
 
@@ -26,3 +37,4 @@ and I would like to keep it that way as much as possible.
 
 
 TODO: notes on performance and the preprocess function
+
