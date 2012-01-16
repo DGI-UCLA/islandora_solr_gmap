@@ -155,7 +155,7 @@ function showPopup(lat_long, marker) {
 
   $.ajax({
     type: "POST",
-    url: "/islandora-solr-gmap/callback",
+    url: Drupal.settings.basePath + "islandora-solr-gmap/callback",
     cache: false,
     //data: 'gmap=' + recs,
     //data: 'gmap=' + JSON.stringify(recs),
