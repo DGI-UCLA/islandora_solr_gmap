@@ -10,11 +10,12 @@ $(document).ready(function() {
   
   // popup settings
   $('#gmap-overlay, #gmap-overlay-close').click(function() {
+    // @TODO: make fade speed configureable through admin interface
     // fadeOut and empty markup
-    $('#gmap-overlay-wrap').fadeOut(200, function() {
-      
+    $('#gmap-overlay-wrap').fadeOut(150, function() {
       $(this).find('#gmap-overlay').html('');
     });
+    // $('#gmap-overlay').scrollTop(0); // need a good place for this. The scrollbar positions where it was left previously
     return false;
   });
 });
@@ -166,8 +167,8 @@ function showPopup(lat_long, marker) {
     },
     dataType: 'json'
   });
-  
+  // @TODO: make fade speed configureable through admin interface
   // then fadeIn (so the markup doesn't start rendering after the popup load.)
-  $('#gmap-overlay-wrap').fadeIn(200);
+  $('#gmap-overlay-wrap').fadeIn(150);
   
 }
