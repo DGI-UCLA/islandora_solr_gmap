@@ -15,7 +15,7 @@
 <ul id="islandora-solr-gmap-items">
   <?php $zebra = 'odd'; ?>
   <?php foreach($marker_items as $item): ?>
-     <li class="islandora-solr-gmap-items <?php print $zebra; ?>">
+     <li class="islandora-solr-gmap-item <?php print $zebra; ?>">
      <?php $zebra = ($zebra == 'odd'? 'even' : 'odd' ); ?>
   
      <?php foreach($item as $key => $value): ?>
