@@ -110,7 +110,7 @@ function initialize_map() {
     markerTitle = lat_lons[lat_long][0].mods_title_s[0];
 
     if (recsLength > 1) {
-      markerTitle += ' ' + Drupal.t('(+@variable more)', {'@variable': (recsLength -1)});
+      markerTitle += ' +' + (recsLength -1) + ' ' + Drupal.t('more');
     }
 
     marker = new google.maps.Marker({
