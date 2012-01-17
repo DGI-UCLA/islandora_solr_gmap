@@ -15,7 +15,7 @@ $(document).ready(function() {
     $('#gmap-overlay-wrap').fadeOut(150, function() {
       $(this).find('#gmap-overlay').html('');
     });
-    // $('#gmap-overlay').scrollTop(0); // need a good place for this. The scrollbar positions where it was left previously
+    // $('#gmap-overlay').scrollTop(0); // need a good place for this. The scrollbar positions where it was left previously in Firefox. It's a bit messed up in FF.
     return false;
   });
 });
