@@ -17,20 +17,15 @@
   <?php foreach($marker_items as $item): ?>
      <li class="islandora-solr-gmap-items <?php print $zebra; ?>">
      <?php $zebra = ($zebra == 'odd'? 'even' : 'odd' ); ?>
-       
-       
-    <?php foreach($item as $key => $value): ?>
-    
-        <div class="solr-field">
-          <div class="solr-field-title">
-            <label><?php print $key; ?></label>
-        </div>
-          <div class="solr-field-value"><?php print (is_array($value)? implode(', ', $value) : $value); ?></div>
-        </div>
-      
+  
+     <?php foreach($item as $key => $value): ?>
+       <div class="solr-field">
+         <div class="solr-field-title">
+           <label><?php print $key; ?></label>
+       </div>
+         <div class="solr-field-value"><?php print (is_array($value)? implode(', ', $value) : $value); ?></div>
+       </div>
     <?php endforeach; ?>
-   
-    <img src="http://164.67.30.146/drupal/fedora/repository/<?php print $item['PID']; ?>/TN/TN" />
  
    </li>
   <?php endforeach; ?>

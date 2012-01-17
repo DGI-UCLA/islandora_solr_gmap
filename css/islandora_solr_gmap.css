@@ -21,8 +21,8 @@
   
 /*  width: 200px;
   height: 700px;*/
-  background: #3D4E6E; /* Change into a more default colour later */
-  background: rgba(61, 78, 110, 1);
+  background: #fff;
+  background: rgba(255, 255, 255, 1);
   
   box-shadow: 5px 5px 5px #333;
 }

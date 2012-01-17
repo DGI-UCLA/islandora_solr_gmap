@@ -66,7 +66,9 @@ function islandora_solr_gmap_preprocess_islandora_solr_gmap(&$variables) {
 
   // array of solr fields we want to include as data.
   // @TODO: should be configurable in the admin UI.
-  $solr_fields_array = array('PID', 'mods_title_s', 'mods_topic_s', 'mods_genre_s');
+  //$solr_fields_array = array('PID', 'mods_title_s', 'mods_topic_s', 'mods_genre_s');
+  $solr_fields_array = array('PID', 'mods_title_s');
+  
   
   // TODO: make adjustable through admin UI
   // round numbers after decimal
