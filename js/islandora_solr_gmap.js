@@ -14,8 +14,12 @@ $(document).ready(function() {
     // fadeOut and empty markup
     $('#gmap-overlay-wrap').fadeOut(150, function() {
       $(this).find('#gmap-overlay').html('');
+      // This fixes a *very* annoying FF bug where it remembers the last scrollbar position.
+      // http://stackoverflow.com/questions/2694243/how-to-reset-persistent-scrollbar-position-after-div-refresh-in-ff3
+      $(this).show();
+      $('#gmap-overlay').scrollTop(0);
+      $(this).hide();
     });
-    // $('#gmap-overlay').scrollTop(0); // need a good place for this. The scrollbar positions where it was left previously in Firefox. It's a bit messed up in FF.
     return false;
   });
 });
@@ -162,7 +166,6 @@ function showPopup(lat_long, marker) {
     //data: 'gmap=' + JSON.stringify(recs),
     data: gmap,
     success: function(data) {
-      //alert(data);
       $("#gmap-overlay").html(data.items);
     },
     dataType: 'json'
