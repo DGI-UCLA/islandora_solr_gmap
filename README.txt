@@ -1,13 +1,15 @@
 @TODO: add cluster markers
 @TODO: when clicking a marker, bring it to front
 @TODO: show a little preview box on hover.
-@TOTO: add shortcut links to quickly switch positioning and zoom level within
+@TODO: add shortcut links to quickly switch positioning and zoom level within
 the google map. For example: one link can show an overview of the US, while
 another link can zoom into the LA city hall area.
+@TODO: When switching to gmap display after paged display, the gmap results will
+not render (there is no page 2 in Gmap). Check if we can prevent this. Normally
+there will be a link to switch that doesn't include a page parameter in the url.
 
-
-TODO: update README.txt
-TODO: write proper credits.
+@TODO: update README.txt
+@TODO: write proper credits.
 
 Short description:
 The islandora_solr_gmap module enables the ability to display solr results on
