@@ -125,7 +125,7 @@ function islandora_solr_gmap_preprocess_islandora_solr_gmap(&$variables) {
   // @TODO: set custom markers through the admin UI
   // @TODO: create markers with canvas element? -> ability to change colors easily.
   $marker1 = $base_url . '/' . $path . '/images/sprite.png';
-  $marker2 = $base_url . '/' . $path . '/images/sprite-selected.png';
+  $marker2 = $base_url . '/' . $path . '/images/selected-sprite.png';
   $markers = array($marker1, $marker2);
   
   // fire the php array with coordinates back to javascript as objects.

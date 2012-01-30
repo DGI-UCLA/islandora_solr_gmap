@@ -13,6 +13,9 @@
 ?>
 <div id="islandora-solr-gmap-wrap">
   <div id="islandora-solr-gmap"></div>
+  <div id="gmap-overlay-hover-wrap">
+    <div id="gmap-overlay-hover"></div>
+  </div>
   <div id="gmap-overlay-wrap">
     <a href="#" id="gmap-overlay-close"><?php print t('X'); ?></a>
     <div id="gmap-overlay"></div>

@@ -52,8 +52,13 @@ function islandora_solr_gmap_menu() {
     'description' => 'Ajax callback for Gmap',
     'page callback' => 'islandora_solr_gmap_callback',
     'access callback' => TRUE,
-//    'path' => $path . '/theme',
-//    'file' => 'islandora_solr_gmap.theme.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['islandora-solr-gmap/callback-hover'] = array(
+    'title' => 'Gmap ajax hover callback',
+    'description' => 'Ajax hover callback for Gmap',
+    'page callback' => 'islandora_solr_gmap_callback_hover',
+    'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
   return $items;
@@ -83,6 +88,13 @@ function islandora_solr_gmap_theme() {
       'path' => $path,
       'file' => $file,
       'template' => 'islandora-solr-gmap-items',
+      'arguments' => array('marker_items' => NULL), // marker_array contains all objects related to the clicked marker.
+    ),
+    // list of items displayed in popup after marker hover
+    'islandora_solr_gmap_items_hover' => array(
+      'path' => $path,
+      'file' => $file,
+      'template' => 'islandora-solr-gmap-items-hover',
       'arguments' => array('marker_items' => NULL), // marker_array contains all objects related to the clicked marker.
     ),
   );
@@ -120,11 +132,8 @@ function islandora_solr_gmap_islandora_solr_primary_display() {
  */
 function islandora_solr_gmap_islandora_solr_search_query_processor($processor) {
   
-  // get current display
-  $islandora_solr_primary_display = isset($_GET['display']) ? $_GET['display'] : variable_get('islandora_solr_primary_display', 'default');
-  
   // only make changes if we're dealing with our gmap display
-  if ($islandora_solr_primary_display == 'gmap') {
+  if ($processor->display == 'gmap') {
   
     //dsm($processor);
     $processor->solrParams['fq'][] = 'mods_coordinates_s:[* TO *]';
@@ -149,6 +158,20 @@ function islandora_solr_gmap_callback() {
   //dsm($_POST['gmap']);
   
   $items = theme('islandora_solr_gmap_items', $marker_items);
+  return drupal_json(array('items' => $items));
+  exit;
+}
+
+/**
+ * Ajax callback for hover
+ */
+function islandora_solr_gmap_callback_hover() {
+  //dsm($_POST);
+  
+  $marker_items = json_decode($_POST['gmapHover'], true);
+  //dsm($_POST['gmap']);
+  
+  $items = theme('islandora_solr_gmap_items_hover', $marker_items);
   return drupal_json(array('items' => $items));
   exit;
 }

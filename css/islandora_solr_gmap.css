@@ -45,3 +45,18 @@
   float: left;
   width: 100%;
 }
+
+#gmap-overlay-hover-wrap
+{
+/*  display: none;*/
+  position: absolute;
+  right: 25px;
+  bottom: 25px;
+  
+  width: 150px;
+  height: 150px;
+  background: #fff;
+  background: rgba(255, 255, 255, 1);
+  
+  box-shadow: 5px 5px 5px #333;
+}

@@ -130,11 +130,23 @@ function initialize_map() {
     markers.push(marker);
     
     (function(lat_long, marker) {
-    google.maps.event.addListener(marker, 'click', function() {
-      showPopup(lat_long, marker);
-    });
+      google.maps.event.addListener(marker, 'click', function() {
+        showPopup(lat_long, marker);
+      });
+
+      google.maps.event.addListener(marker, 'mouseover', function() {
+        showPopupHover(lat_long, marker);
+      });
+
+      // @TODO: figure out if popup should be removed on mouseout. Make this optional?
+      // @TODO: speed should come from admin configuration
+      google.maps.event.addListener(marker, 'mouseout', function() {
+        markerOut(150);
+      });
     
     })(lat_long, marker);
+    
+
     // google.maps.event.addListener(marker, 'mouseover', makePreloadCallback(ll));
     
 //    total += recs.length;
@@ -170,8 +182,71 @@ function showPopup(lat_long, marker) {
     },
     dataType: 'json'
   });
+  
+  // call function to remove the hover popup
+  markerOut(0);
+ 
   // @TODO: make fade speed configureable through admin interface
   // then fadeIn (so the markup doesn't start rendering after the popup load.)
   $('#gmap-overlay-wrap').fadeIn(150);
+
+}
+
+
+
+
+/**
+ * Show Popup on Hover
+ */
+function showPopupHover(lat_long, marker) {
+  // get all objects in clicked coordinates
+  var recsHover = lat_lons[lat_long];
+  // new object
+  var gmapHover = new Object();
   
+  // limit sent info by one
+  var arr = [];
+  arr[0] = recsHover[0];
+  
+  // generate stringified object
+  gmapHover['gmapHover'] = JSON.stringify(arr);
+
+  // @TODO: add admin configurable option to show all, first or random object.
+
+  $.ajax({
+    type: "POST",
+    url: Drupal.settings.basePath + "islandora-solr-gmap/callback-hover",
+    cache: false,
+    //data: 'gmap=' + recs,
+    //data: 'gmap=' + JSON.stringify(recs),
+    data: gmapHover,
+    success: function(data) {
+      $("#gmap-overlay-hover").html(data.items);
+    },
+    dataType: 'json'
+  });
+  // @TODO: make fade speed configureable through admin interface
+  // then fadeIn (so the markup doesn't start rendering after the popup load.)
+  // add .stop() to stop the fading process when hovering lots of markers
+  
+  $('#gmap-overlay-hover-wrap').stop(true, true).fadeIn(150).hover(
+  function() {
+    // adding this to fix a bug where when you hover an element that's underneath the popup, but popup fill fade in and out infinitely
+    $(this).stop(true, true);
+  },
+  function() {
+    markerOut(150);
+  });
+}
+
+
+/**
+ * Remove popup on mouseout
+ */
+function markerOut(speed) {
+  
+  $('#gmap-overlay-hover-wrap').fadeOut(speed, function() {
+    $(this).find('#gmap-overlay-hover').html('');
+  });
+      
 }
