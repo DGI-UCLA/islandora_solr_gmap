@@ -7,15 +7,22 @@ another link can zoom into the LA city hall area.
 @TODO: When switching to gmap display after paged display, the gmap results will
 not render (there is no page 2 in Gmap). Check if we can prevent this. Normally
 there will be a link to switch that doesn't include a page parameter in the url.
-
+TODO: notes on performance and the preprocess function
 @TODO: update README.txt
-@TODO: write proper credits.
+
+
+Credits:
+========
+Credits and thanks go out to @danvdk and @ravejk who created http://www.oldsf.org. Old Sf was an source of inspiration for this module.
 
 Short description:
+==================
+
 The islandora_solr_gmap module enables the ability to display solr results on
 a google map for those that contain coordinates.
 
 Notes:
+======
 
 The minimal need to populate a map are coordinates in an array. When we want to
 use the data related to these coordinates the minimum requirement is to add a
@@ -38,5 +45,4 @@ We can also call the Islandora API, but there is currently no dependency on Isla
 and I would like to keep it that way as much as possible.
 
 
-TODO: notes on performance and the preprocess function
 

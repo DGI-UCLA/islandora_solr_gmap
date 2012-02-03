@@ -40,7 +40,8 @@ function initialize_map() {
   var marker_icons = [];
   var selected_marker_icons = [];
   var map;
-
+  var bounds = new google.maps.LatLngBounds();
+  
   var latlng = new google.maps.LatLng(34.052234,-118.243685);
   var opts = {
     zoom: 14,
@@ -78,6 +79,7 @@ function initialize_map() {
       ]
   };
 
+  // set map
   map = new google.maps.Map(document.getElementById('islandora-solr-gmap'), opts);
   
 
@@ -105,29 +107,44 @@ function initialize_map() {
   // place markers
   var total = 0;
   var init_marker = null;
+  
+  // go over each coordinate to create markers
   for (var lat_long in lat_lons) {
-        
+
     var ll = lat_long.split(" "); // set this in admin settings how this is done.
     //alert(ll);
     var recs = lat_lons[lat_long];
     var recsLength = recs.length;
 
+    // get the title of the first object
     markerTitle = lat_lons[lat_long][0].mods_title_s[0];
 
+    // add a more string if there's more than one image in a marker
     if (recsLength > 1) {
       markerTitle += ' +' + (recsLength -1) + ' ' + Drupal.t('more');
     }
 
+    // set coordinates
+    var myLatLng = new google.maps.LatLng(parseFloat(ll[0]), parseFloat(ll[1]));
+
+    // defines a new marker
     marker = new google.maps.Marker({
-      position: new google.maps.LatLng(parseFloat(ll[0]), parseFloat(ll[1])),
+      position: myLatLng,
       map: map,
       flat: true,
       visible: true,
       icon: marker_icons[recsLength > 100 ? 100 : recsLength],
       title: markerTitle
-    });
+      
+    });    
     
+    // add this marker to the markers arrray
     markers.push(marker);
+    
+    // adds to the marker bound
+    bounds.extend(myLatLng);
+
+    
     
     (function(lat_long, marker) {
       google.maps.event.addListener(marker, 'click', function() {
@@ -146,13 +163,11 @@ function initialize_map() {
     
     })(lat_long, marker);
     
-
-    // google.maps.event.addListener(marker, 'mouseover', makePreloadCallback(ll));
-    
-//    total += recs.length;
-
-//    if (lat_lon == init_lat_lon) init_marker = marker;
   }
+  
+  // fit the bounds we created
+  map.fitBounds(bounds);
+  
 }
 
 
