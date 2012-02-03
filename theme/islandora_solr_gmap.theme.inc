@@ -118,7 +118,7 @@ function islandora_solr_gmap_preprocess_islandora_solr_gmap(&$variables) {
   // end time
    $endtime = (microtime(true) - $time) * 1000;
   // this setup ends somewhere between 10 and 12ms.
-  dsm($endtime);
+  //dsm($endtime);
   //dsm($latlong);
   
   //marker urls
